@@ -29,7 +29,7 @@ echo ✅ 注册表清理完成
 set "InstallDir=%USERPROFILE%\.claude\claude-code-now"
 
 if exist "%InstallDir%" (
-    echo ❌ 正在删除文件...
+    echo 🗑️ 正在删除文件...
     rmdir /s /q "%InstallDir%"
     echo ✅ 已删除安装目录: %InstallDir%
     
