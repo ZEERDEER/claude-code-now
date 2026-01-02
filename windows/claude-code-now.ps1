@@ -1,5 +1,5 @@
-﻿# 🖥 Claude Code Now - 智能启动脚本
-# 采用混合搜索策略：优先硬编码路径 (优先 .ps1)，失败后回退到系统搜索
+﻿# 🖥 Claude Code Now - 即时启动，无需确认
+# PowerShell script to launch Claude Code Now in current directory
 
 # --- 1. 确定工作目录 ---
 # 保存上次目录的配置文件
@@ -31,14 +31,14 @@ Write-Host "🖥 在目录 '$TargetDir' 启动 Claude Code..." -ForegroundColor 
 # --- 2. 寻找 Claude 可执行文件 (混合策略) ---
 $ClaudePath = $null
 
-# 策略 A: 硬编码优先路径 (优先寻找 .ps1 以获得最佳兼容性)
+# 策略 A: 硬编码优先路径
 $PossiblePaths = @(
-    # 优先：PowerShell 脚本版本 (通常更稳定)
+    # 优先：PowerShell 脚本版本
     "$env:APPDATA\npm\claude.ps1",
     "$env:LOCALAPPDATA\npm\claude.ps1",
     "$env:ProgramFiles\nodejs\claude.ps1",
     
-    # 次选：CMD 批处理版本 (如果没找到 ps1)
+    # 次选：CMD 批处理版本
     "$env:APPDATA\npm\claude.cmd",
     "$env:LOCALAPPDATA\npm\claude.cmd",
     "$env:ProgramFiles\nodejs\claude.cmd"
@@ -54,7 +54,7 @@ foreach ($path in $PossiblePaths) {
     }
 }
 
-# 策略 B: 系统环境搜索 (如果策略 A 失败)
+# 策略 B: 系统环境搜索
 if (-not $ClaudePath) {
     Write-Host "⚠️ 常用位置未找到，尝试系统全局搜索..." -ForegroundColor DarkGray
     $ClaudeCommand = Get-Command claude -ErrorAction SilentlyContinue
